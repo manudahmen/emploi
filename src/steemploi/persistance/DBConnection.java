@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,21 @@ public class DBConnection {
     public static DataSource ds; // la source de donn�es
     private static DBConnection dbconnection;
     protected static Connection conn;
+
+    public static boolean isOpen() {
+        try {
+            if(ds==null)
+                return false;
+            if(ds.getConnection()==null)
+                return false;
+            if(ds.getConnection().isClosed())
+                return false;
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
     String connectionString;
     static String user;
     static String password;
@@ -51,14 +67,14 @@ public class DBConnection {
         return DBConnection.dbconnection;
     }
 
-    public Connection getConnection() throws Exception {
+    public static Connection getConnection() throws Exception {
 
         if (DBConnection.dbconnection == null) {
             throw new Exception("Singleton non initialis�");
         }
 
         if (ds != null) {
-            if (conn == null || !conn.isValid(0)) {
+            if (conn == null || !conn.isValid(100)) {
                 conn = ds.getConnection();
             }
             return conn;
@@ -82,7 +98,7 @@ public class DBConnection {
 
     }
 
-    public void close() throws Exception {
+    public static void close() throws Exception {
         if (conn != null) {
             try {
                 conn.close();
@@ -146,11 +162,8 @@ public class DBConnection {
 
 
 
-                //Context initContext = new InitialContext();
-                //Context envContext = (Context) initContext.lookup("java:comp/env");
-                //pool1 = (javax.sql.DataSource) envContext.lookup("jdbc/steemploi");
 
-            pool1 = (javax.sql.DataSource) new InitialContext().lookup("jdbc/steemploi");
+            pool1 = (javax.sql.DataSource) new InitialContext().lookup("jdbc/emploi");
 
 
                 if (pool1 == null) {

@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionMessage;
 import org.apache.struts.action.ActionMessages;
 
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMessages;
+import steemploi.persistance.DBConnection;
 
 import steemploi.persistance.TableUtilisateurs;
 import steemploi.service.TypeUtilisateur;
@@ -114,5 +115,13 @@ public class Login extends Action {
 			addErrors(request, errors);
 			return mapping.findForward("error");
 		}
+                finally
+                {
+                                    if(DBConnection.isOpen())
+                    DBConnection.close();
+                }
+
+                }
+                
 	}
-}
+
