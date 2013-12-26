@@ -70,7 +70,7 @@ public class DBConnection {
     public static Connection getConnection() throws Exception {
 
         if (DBConnection.dbconnection == null) {
-            throw new Exception("Singleton non initialis�");
+            dbconnection = new DBConnection();
         }
 
         if (ds != null) {
@@ -116,12 +116,12 @@ public class DBConnection {
     }
 
     private static void init() throws Exception {
-        Context env = null;
+        //Context env = null;
         DataSource pool1 = null;
         Logger logger = Logger
                 .getLogger("steemploi.persistance.DBConnection");
         try {
-            try {
+          /*  try {
                 env = (Context) new InitialContext()
                         .lookup("java:comp/env");
                 logger.log(Level.INFO, env.getNameInNamespace());
@@ -142,7 +142,8 @@ public class DBConnection {
                 throw new ServletException("env==null");
             }
             logger.log(Level.INFO, "env class: " + env.getClass().getName());
-            try {
+            
+             try {
                 NamingEnumeration<NameClassPair> ne = env.list("/jdbc");
                 logger.log(Level.INFO, "Liste des jdbc:\n");
                 while (ne.hasMoreElements()) {
@@ -156,6 +157,8 @@ public class DBConnection {
                 //		+ " \n Cause: NullPointerException");
             } catch (Exception ex1) {
             }
+            
+            */
             try {
 
 

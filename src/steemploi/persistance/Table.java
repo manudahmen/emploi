@@ -4,18 +4,11 @@
 */
 package steemploi.persistance;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import java.sql.Connection;
 
-import java.util.logging.*;
 /**
  *
  * @author manuel
@@ -25,8 +18,7 @@ public class Table {
 		protected Connection conn = null;
 		public Table() {
 			try {
-					DBConnection dbconn = DBConnection.getInstance();
-					conn = dbconn.getConnection();
+					conn = DBConnection.getConnection();
 
 				} catch (Exception e) {
 					Logger logger = Logger.getLogger("steemploi.persistance.Table");
